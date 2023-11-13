@@ -1,6 +1,6 @@
 const server = Deno.listen({ port: 80 });
 console.log("File server running on http://localhost:80/index.html");
-const __dirname = new URL(".", import.meta.url).pathname;
+const __dirname = new URL(".", import.meta.url).pathname.slice(1);
 
 for await (const conn of server) {
     handleHttp(conn).catch(console.error);

@@ -1,6 +1,8 @@
+import * as path from "https://deno.land/std/path/mod.ts";
+
 const server = Deno.listen({ port: 80 });
 console.log("File server running on http://localhost:80/index.html");
-const __dirname = new URL(".", import.meta.url).pathname;
+const __dirname = new URL(".", import.meta.url).pathname.slice(1);
 
 for await (const conn of server) {
     handleHttp(conn).catch(console.error);
@@ -11,12 +13,13 @@ async function handleHttp(conn: Deno.Conn) {
     for await (const requestEvent of httpConn) {
         
         const url = new URL(requestEvent.request.url);
-        const filepath = decodeURIComponent(url.pathname);
+        const requestPath = decodeURIComponent(url.pathname);
 
         let file;
         try {
-            console.log(filepath);
-            file = await Deno.open(__dirname + "/public" + filepath, { read: true });
+            console.log(requestPath);
+            const filePath = path.join(__dirname, "public", requestPath);
+            file = await Deno.open(filePath, { read: true });
         } catch {
             const notFoundResponse = new Response("404 Not Found", { status: 404 });
             await requestEvent.respondWith(notFoundResponse);
