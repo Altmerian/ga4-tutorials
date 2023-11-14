@@ -1,6 +1,9 @@
 import { configure, renderFile } from "https://deno.land/x/eta@v1.11.0/mod.ts";
 
-const __dirname = new URL(".", import.meta.url).pathname;
+let __dirname = new URL(".", import.meta.url).pathname;
+if (__dirname.startsWith("/")) {
+  __dirname = __dirname.slice(1);
+}
 
 const viewPath = [
   `${__dirname}/public`,
