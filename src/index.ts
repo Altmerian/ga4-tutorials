@@ -37,7 +37,11 @@ async function handleHttp(conn: Deno.Conn) {
     try {
       console.log(filepath);
       if (filepath.indexOf(".eta") > 0) {
-        response = new Response(await renderFile(filepath, {}), {
+        // This is a mock user_id for demonstration. Replace it with your actual user_id retrieval logic.
+        const userId = "someUserId";
+        const external = true;
+
+        response = new Response(await renderFile(filepath, { user_id: userId, external: external }), {
           headers: { "content-type": "text/html" },
         });
       } else {

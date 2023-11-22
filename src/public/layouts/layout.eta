@@ -12,6 +12,10 @@
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
+
+        <% if (it.user_id) { %>
+            dataLayer.push({'user_id': '<%= it.user_id %>', 'external': '<%= it.external %>'});
+        <% } %>
         
         if(localStorage.getItem('consentMode') === null){
             gtag('consent', 'default', {
